@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARIA — Voice AI Agent</title>
+  <meta name="description" content="ARIA is a voice-enabled AI agent that manages your To-Do list and remembers important interactions using Google Gemini." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <!-- ── Background particles ──────────────────────────────── -->
+  <div class="bg-particles" id="particles"></div>
+
+  <!-- ── App shell ─────────────────────────────────────────── -->
+  <div class="app">
+
+    <!-- ── Header ─────────────────────────────────────────── -->
+    <header class="header">
+      <div class="header-brand">
+        <div class="logo-ring">
+          <span class="logo-icon">◈</span>
+        </div>
+        <div>
+          <h1 class="brand-name">ARIA</h1>
+          <p class="brand-tagline">Adaptive Recall &amp; Intelligence Assistant</p>
+        </div>
+      </div>
+      <div class="header-status">
+        <span class="status-dot" id="statusDot"></span>
+        <span class="status-label" id="statusLabel">Ready</span>
+      </div>
+    </header>
+
+    <!-- ── Main layout ─────────────────────────────────────── -->
+    <main class="main-layout">
+
+      <!-- ── Left sidebar: Todos ─────────────────────────── -->
+      <aside class="sidebar sidebar-left">
+        <div class="sidebar-header">
+          <h2 class="sidebar-title">
+            <span class="sidebar-icon">✓</span> To-Do List
+          </h2>
+          <span class="todo-count" id="todoCount">0</span>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="" id="filterAll">All</button>
+          <button class="filter-tab" data-filter="pending" id="filterPending">Pending</button>
+          <button class="filter-tab" data-filter="in_progress" id="filterInProgress">In Progress</button>
+          <button class="filter-tab" data-filter="done" id="filterDone">Done</button>
+        </div>
+
+        <!-- Todo list -->
+        <div class="todo-list" id="todoList">
+          <div class="empty-state" id="todoEmpty">
+            <span class="empty-icon">📋</span>
+            <p>No tasks yet.<br/>Try saying<br/><em>"Add buy groceries"</em></p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ── Center: Chat panel ──────────────────────────── -->
+      <section class="chat-panel">
+        <div class="chat-messages" id="chatMessages">
+          <!-- Welcome message -->
+          <div class="message message-agent">
+            <div class="message-avatar">◈</div>
+            <div class="message-content">
+              <div class="message-bubble">
+                <p>Hi! I'm <strong>ARIA</strong>, your voice-powered AI assistant. 👋</p>
+                <p>I can manage your To-Do list and remember important things you tell me.</p>
+                <p>Try pressing the microphone button and saying something like <em>"Add finish the report with high priority"</em>!</p>
+              </div>
+              <div class="message-time">Just now</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Voice input area -->
+        <div class="voice-area">
+          <!-- Waveform visualizer -->
+          <div class="waveform" id="waveform">
+            <div class="wave-bars" id="waveBars"></div>
+          </div>
+
+          <!-- Transcript display -->
+          <div class="transcript-box" id="transcriptBox">
+            <span class="transcript-placeholder" id="transcriptPlaceholder">Press the mic and speak…</span>
+            <span class="transcript-text" id="transcriptText"></span>
+          </div>
+
+          <!-- Controls -->
+          <div class="voice-controls">
+            <button class="btn-secondary" id="btnTextMode" title="Switch to text input">⌨</button>
+            <button class="mic-btn" id="micBtn" title="Hold to speak">
+              <span class="mic-icon" id="micIcon">🎤</span>
+              <div class="mic-ring"></div>
+            </button>
+            <button class="btn-secondary" id="btnClearChat" title="Clear conversation">🗑</button>
+          </div>
+
+          <!-- Text input (hidden by default) -->
+          <div class="text-input-area" id="textInputArea" style="display:none">
+            <input
+              type="text"
+              class="text-input"
+              id="textInput"
+              placeholder="Type a message…"
+              autocomplete="off"
+            />
+            <button class="btn-send" id="btnSend">Send</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Right sidebar: Memories ─────────────────────── -->
+      <aside class="sidebar sidebar-right">
+        <div class="sidebar-header">
+          <h2 class="sidebar-title">
+            <span class="sidebar-icon">🧠</span> Memory Log
+          </h2>
+          <span class="memory-count" id="memoryCount">0</span>
+        </div>
+        <div class="memory-list" id="memoryList">
+          <div class="empty-state" id="memoryEmpty">
+            <span class="empty-icon">💭</span>
+            <p>No memories yet.<br/>Tell me something<br/>important about you!</p>
+          </div>
+        </div>
+      </aside>
+
+    </main>
+  </div>
+
+  <!-- ── Tool call toast notification ──────────────────────── -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
